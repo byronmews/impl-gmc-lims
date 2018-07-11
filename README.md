@@ -3,7 +3,7 @@ Imperial GMClab
 
 # About
 
-Development MS Access DB light weight tracking of samples within LDP pipelines.
+Development MS Access DB light weight tracking of samples within LDP pipelines. All empty tables, forms and sql queries for sample tracking.
 
 See:
 https://github.com/byronmews/impl-gmc-lims/wiki
