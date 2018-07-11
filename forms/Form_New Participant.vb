@@ -1,6 +1,7 @@
 ﻿Option Compare Database
 
-' Select database for record source of form. Defaults to Cancer table.
+
+' Select database for record source of form. Defaults to Cancer table with all other TabMain pages not visible.
 Private Sub ComboDiseaseType_Click()
 
     If ComboDiseaseType.Value = "Cancer" Then
@@ -52,20 +53,29 @@ Private Sub NewRecord_Click()
 
     ' Me!subCancerQueryAll.SetFocus
     DoCmd.GoToRecord , , acNewRec
+    
+    Me.BoxSearch.Visible = False
+    Me.LabelTextSearch.Visible = False
+    Me.TextSearch.Visible = False
 
 End Sub
 
-' Dave record input
+' Save record input
 Private Sub Save_Click()
 
-' subCancerQueryAll.SetFocus
+    DoCmd.RunCommand acCmdSaveRecord
 
-DoCmd.RunCommand acCmdSaveRecord
+    ' Refresh all tables
+    Me.Refresh
+    subCancerQueryAll.Form.Refresh
 
-Me.Refresh
-subCancerQueryAll.Form.Refresh
+    ' Enable search box again after new record input saved
+    Me.BoxSearch.Visible = True
+    Me.LabelTextSearch.Visible = True
+    Me.TextSearch.Visible = True
 
 End Sub
+
 
 ' Search box for the main form, searches form and subform based on database selected
 Private Sub TextSearch_Change()
@@ -74,7 +84,9 @@ Private Sub TextSearch_Change()
     
     Me.Refresh
     
-    strFilter = "surname LIKE '*" & Me.TextSearch & "*'"
+    ' Number of conditions
+    'strFilter = "[surname] LIKE '*" & Me.TextSearch & "*'"
+    strFilter = "[genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '*" & Me.TextSearch & "*' "
     
     If ComboDiseaseType.Value = "Cancer" Then
     
@@ -107,5 +119,14 @@ Private Sub TextSearch_Change()
         Me.TextSearch.SelStart = Nz(Len(Me.TextSearch), 0)
         
     End If
+
+End Sub
+
+
+' Clear TextSearch value and remove filter
+Private Sub ClearTextSearch_Click()
+
+    Me.TextSearch.Value = ""
+    Form.FilterOn = False
 
 End Sub
