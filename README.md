@@ -1,4 +1,4 @@
-GMClab imperial lims
+Imperial GMClab
 ========================
 
 # About
