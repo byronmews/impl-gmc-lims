@@ -82,7 +82,6 @@ Private Sub NewRecord_Click()
 
 End Sub
 
-
 ' Open Cancer using SubFormButton, filter using logic from TextSearch values.
 ' Use no filter if null value. Filter search can be genie_id or surname.
 Private Sub openSubCancerFormButton_Click()
