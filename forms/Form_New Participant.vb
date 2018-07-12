@@ -1,6 +1,5 @@
-﻿Option Compare Database
-
-
+﻿
+Option Compare Database
 
 ' Select database for record source of main form and subform. Defaults to cancer table, hide all other disease TabMain pages.
 Private Sub ComboDiseaseType_Click()
@@ -83,6 +82,61 @@ Private Sub NewRecord_Click()
 
 End Sub
 
+
+' Open Cancer using SubFormButton, filter using logic from TextSearch values.
+' Use no filter if null value. Filter search can be genie_id or surname.
+Private Sub openSubCancerFormButton_Click()
+
+    ' Filter subform using hardset variable, debug only
+    'Dim person As String
+    'person = "SPEI"
+    'DoCmd.OpenForm "subCancerQueryAll", , , "surname LIKE '*" & person & "*'"
+    
+    If IsNull(Me.TextSearch.Value) Then
+        ' Open subform as unfiltered
+        Me.subCancerQueryAll.Form.FilterOn = False
+        DoCmd.OpenForm "subCancerQueryAll"
+    Else
+        ' Filter subform using string entered into search box (can be genie_id or surname)
+        DoCmd.OpenForm "subCancerQueryAll", , , " [genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '*" & Me.TextSearch.Value & "*'"
+    End If
+    
+End Sub
+
+
+' Open HaemOnc using SubFormButton, filter using logic from TextSearch values.
+' Use no filter if null value. Filter search can be genie_id or surname.
+Private Sub openSubHaemFormButton_Click()
+    
+    If IsNull(Me.TextSearch.Value) Then
+        ' Open subform as unfiltered
+        Me.subHaemQueryAll.Form.FilterOn = False
+        DoCmd.OpenForm "subHaemQueryAll"
+    Else
+        ' Filter subform using string entered into search box (can be genie_id or surname)
+        DoCmd.OpenForm "subHaemQueryAll", , , " [genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '*" & Me.TextSearch.Value & "*'"
+    End If
+    
+End Sub
+
+
+' Open RD using SubFormButton, filter using logic from TextSearch values.
+' Use no filter if null value. Filter search can be genie_id or surname.
+Private Sub openRDFormButton_Click()
+
+    If IsNull(Me.TextSearch.Value) Then
+        ' Open subform as unfiltered
+        Me.subRDQueryAll.Form.FilterOn = False
+        DoCmd.OpenForm "subRDQueryAll"
+    Else
+        ' Filter subform using string entered into search box (can be genie_id or surname)
+        DoCmd.OpenForm "subRDQueryAll", , , " [genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '*" & Me.TextSearch.Value & "*'"
+    End If
+    
+End Sub
+
+
+
 ' Save record input button
 Private Sub Save_Click()
 
@@ -121,10 +175,10 @@ Private Sub Save_Click()
         Me.LabelTextSearch.Visible = True
         Me.TextSearch.Visible = True
         Me.ClearTextSearch.Visible = True
-    
     End If
-
+    
 End Sub
+
 
 
 ' Search box for the main form, searches form and subform based on database selected
@@ -139,30 +193,30 @@ Private Sub TextSearch_Change()
     
     If ComboDiseaseType.Value = "Cancer" Then
     
-        subCancerQueryAll.Form.Filter = strFilter
+        subCancerQueryAll.Form.filter = strFilter
         subCancerQueryAll.Form.FilterOn = True
         
-        Form.Filter = strFilter
+        Form.filter = strFilter
         Form.FilterOn = True
         
         Me.TextSearch.SelStart = Nz(Len(Me.TextSearch), 0)
         
     ElseIf ComboDiseaseType.Value = "Haem Oncology" Then
         
-        subHaemQueryAll.Form.Filter = strFilter
+        subHaemQueryAll.Form.filter = strFilter
         subHaemQueryAll.Form.FilterOn = True
         
-        Form.Filter = strFilter
+        Form.filter = strFilter
         Form.FilterOn = True
         
         Me.TextSearch.SelStart = Nz(Len(Me.TextSearch), 0)
         
     ElseIf ComboDiseaseType.Value = "Rare Disease" Then
         
-        subRDQueryAll.Form.Filter = strFilter
+        subRDQueryAll.Form.filter = strFilter
         subRDQueryAll.Form.FilterOn = True
         
-        Form.Filter = strFilter
+        Form.filter = strFilter
         Form.FilterOn = True
         
         Me.TextSearch.SelStart = Nz(Len(Me.TextSearch), 0)
@@ -180,3 +234,6 @@ Private Sub ClearTextSearch_Click()
     Me.TextBoxRecordCount.Visible = True
 
 End Sub
+
+
+
