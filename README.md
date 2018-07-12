@@ -15,5 +15,5 @@ Notes:
 
 # Warning
 
-* Code built and tested on MS Access 2007/2016. Compiled in 2007 for later version compatibity, but YMMV.*
+* Code built and tested on MS Access 2010/2016. Compiled using 2010 for version compatibity, but YMMV.*
 
