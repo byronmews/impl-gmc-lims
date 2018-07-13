@@ -4,7 +4,7 @@ Option Compare Database
 Private Sub Form_Activate()
 
     ' Set form to locked fields
-    Me.LockFields.Value = "Locked"
+    Me.LockRadioButton.Value = 1
     fncLockUnlockControls Me, True, False, RGB(225, 225, 225) 'Locked
     fncLockUnlockControls Me!subCancerQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
     fncLockUnlockControls Me!subHaemQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
@@ -12,15 +12,15 @@ Private Sub Form_Activate()
 
 End Sub
 
-' Lock form fields from being altered using LockFields comboBox
-Private Sub LockFields_AfterUpdate()
+' Lock form fields from being modified using LockRadioButton
+Private Sub LockRadioButton_AfterUpdate()
 
-    If Me.LockFields.Value = "Locked" Then
+    If Me.LockRadioButton.Value = 1 Then
         fncLockUnlockControls Me, True, False, RGB(225, 225, 225) 'Locked
         fncLockUnlockControls Me!subCancerQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
         fncLockUnlockControls Me!subHaemQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
         fncLockUnlockControls Me!subRDQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
-    ElseIf Me.LockFields.Value = "Unlocked" Then
+    ElseIf Me.LockRadioButton.Value = 2 Then
         fncLockUnlockControls Me, False, True, RGB(255, 255, 255) 'Unlocked
         fncLockUnlockControls Me!subCancerQueryAll.Form, False, True, RGB(255, 255, 255) 'Unlocked
         fncLockUnlockControls Me!subHaemQueryAll.Form, False, True, RGB(255, 255, 255) 'Unlocked
@@ -78,10 +78,10 @@ Private Sub Form_Load()
     
     ' Form defaults to Cancer, so populate combobox with disease specific values.
     disease_type.RowSource = "Breast, Ovarian, Prostate, Lung, Colorectal, Sarcoma, Renal," & _
-                                    "Brain, Bladder, Endometrial, Testicular, GI, Pancreas"
+                                    "Adult Glioma, Bladder, Endometrial, Testicular, GI, Pancreas"
                                     
-    ' Set form to locked fields
-    Me.LockFields.Value = "Locked"
+    ' Lock all fields, opt value 1 on radio button.
+    Me.LockRadioButton.Value = 1
     fncLockUnlockControls Me, True, False, RGB(225, 225, 225) 'Locked
     fncLockUnlockControls Me!subCancerQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
     fncLockUnlockControls Me!subHaemQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
@@ -166,7 +166,7 @@ Private Sub NewRecord_Click()
     DoCmd.GoToRecord , , acNewRec
     
     ' Set form to unlocked fields
-    Me.LockFields.Value = "Unlocked"
+    Me.LockRadioButton.Value = 2
     fncLockUnlockControls Me, False, True, RGB(255, 255, 255) 'Unlocked
    
     
@@ -270,15 +270,14 @@ Private Sub Save_Click()
            DoCmd.RunCommand acCmdSaveRecord
            
             ' Set form to locked fields
+            Me.LockRadioButton.Value = 1
             fncLockUnlockControls Me, True, False, RGB(225, 225, 225) 'Locked
             fncLockUnlockControls Me!subCancerQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
-            Me.LockFields.Value = "Locked"
-    
+
             ' Refresh table
             Me.Refresh
     
             ' Enable filter textbox after new record input saved.
-            Me.BoxSearch.Visible = True
             Me.LabelTextSearch.Visible = True
             Me.TextSearch.Visible = True
             Me.ClearTextSearch.Visible = True

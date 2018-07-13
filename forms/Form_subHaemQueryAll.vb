@@ -1,11 +1,17 @@
 Option Compare Database
 
+Private Sub ChangeViewButton_Click()
+
+        DoCmd.RunCommand acCmdDatasheetView
+ 
+End Sub
+
 Private Sub Form_Load()
 
     ' Check field lock status from main form.
-    If Forms!Participants!LockFields.Value = "Locked" Then
+    If Forms!Participants!LockRadioButton.Value = 1 Then
         fncLockUnlockControls Me, True, False, RGB(225, 225, 225) 'Locked
-    ElseIf Forms!Participants!LockFields.Value = "Unlocked" Then
+    ElseIf Forms!Participants!LockRadioButton.Value = 2 Then
         fncLockUnlockControls Me, False, True, RGB(255, 255, 255) 'Unlocked
     End If
     
