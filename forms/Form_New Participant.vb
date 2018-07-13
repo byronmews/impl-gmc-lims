@@ -1,6 +1,17 @@
 ﻿
 Option Compare Database
 
+Private Sub Form_Activate()
+
+    ' Set form to locked fields
+    Me.LockFields.Value = "Locked"
+    fncLockUnlockControls Me, True, False, RGB(225, 225, 225) 'Locked
+    fncLockUnlockControls Me!subCancerQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
+    fncLockUnlockControls Me!subHaemQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
+    fncLockUnlockControls Me!subRDQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
+
+End Sub
+
 ' Lock form fields from being altered using LockFields comboBox
 Private Sub LockFields_AfterUpdate()
 
@@ -69,9 +80,13 @@ Private Sub Form_Load()
     disease_type.RowSource = "Breast, Ovarian, Prostate, Lung, Colorectal, Sarcoma, Renal," & _
                                     "Brain, Bladder, Endometrial, Testicular, GI, Pancreas"
                                     
-    ' Set form to locked fields on Form open
+    ' Set form to locked fields
     Me.LockFields.Value = "Locked"
     fncLockUnlockControls Me, True, False, RGB(225, 225, 225) 'Locked
+    fncLockUnlockControls Me!subCancerQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
+    fncLockUnlockControls Me!subHaemQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
+    fncLockUnlockControls Me!subRDQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
+    
 
 End Sub
 
@@ -292,11 +307,12 @@ Private Sub TextSearch_Change()
     
     Dim strFilter As String
     Me.Refresh
+    
     ' Hide sample number box, as filtering will reduce value - not useful.
     Me.TextBoxRecordCount.Visible = False
     
     ' 2 conditions - gene_id or surname
-    strFilter = "[genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '*" & Me.TextSearch & "*' "
+    strFilter = "[genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '" & Me.TextSearch & "*' "
     
     If ComboDiseaseType.Value = "Cancer" Then
     
