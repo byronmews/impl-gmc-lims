@@ -26,12 +26,5 @@ Private Sub Form_Current()
         Me.CANCER_nhs_number.BackColor = RGB(225, 225, 225)
  
     End If
-    
+
 End Sub
-
-
-
-
-
-
-
