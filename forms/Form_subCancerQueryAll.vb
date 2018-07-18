@@ -24,7 +24,8 @@ Private Sub Form_Current()
         Me.CANCER_nhs_number.enabled = False
         Me.CANCER_nhs_number.Locked = True
         Me.CANCER_nhs_number.BackColor = RGB(225, 225, 225)
- 
+
     End If
 
 End Sub
+
