@@ -310,9 +310,9 @@ Private Sub TextSearch_Change()
     ' Hide sample number box, as filtering will reduce value - not useful.
     Me.TextBoxRecordCount.Visible = False
     
-    ' 2 conditions - gene_id or surname
-    strFilter = "[genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '" & Me.TextSearch & "*' "
-    
+    ' 3 conditions - gene_id, surname, nhs_number
+    strFilter = "[genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '" & Me.TextSearch & "*' OR [demographics.nhs_number] LIKE '*" & Me.TextSearch & "*'  "
+
     If ComboDiseaseType.Value = "Cancer" Then
     
         subCancerQueryAll.Form.Filter = strFilter

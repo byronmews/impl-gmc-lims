@@ -20,10 +20,10 @@ End Sub
 Private Sub Form_Current()
 
     ' Minimal entry fields on subform locks.
-    If IsEmpty(Me.HAEM_nhs_number.Value) = False Then
-        Me.HAEM_nhs_number.enabled = False
-        Me.HAEM_nhs_number.Locked = True
-        Me.HAEM_nhs_number.BackColor = RGB(225, 225, 225)
+    If IsEmpty(Me.RD_nhs_number.Value) = False Then
+        Me.RD_nhs_number.enabled = False
+        Me.RD_nhs_number.Locked = True
+        Me.RD_nhs_number.BackColor = RGB(225, 225, 225)
  
     End If
     
