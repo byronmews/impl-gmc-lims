@@ -1,7 +1,8 @@
 SELECT HAEM.genie_id, DEMOGRAPHICS.first_name, DEMOGRAPHICS.surname, HAEM.hospital, HAEM.status_saliva, HAEM.status_blood, HAEM.[status_stored_cell_in_stem_cell_lab/gtc], HAEM.disease_type, HAEM.status_impl_to_gosh_dispatch_date, SWITCH
         (
         HAEM.hospital = 'HH', 'ICHT',
-        HAEM.hospital = 'QCH', 'ICHT',
+        HAEM.hospital
+= 'QCH', 'ICHT',
         HAEM.hospital = 'CXH', 'ICHT',
         HAEM.hospital = 'SMH', 'ICHT',
         HAEM.hospital = 'ChelWest', 'C&W',
