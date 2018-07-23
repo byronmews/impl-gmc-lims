@@ -1,5 +1,4 @@
-﻿
-Option Compare Database
+﻿Option Compare Database
 
 Private Sub Form_Activate()
 
@@ -191,7 +190,7 @@ Private Sub openSubCancerFormButton_Click()
     Else
     
         ' Filter subform using string entered into search box (can be genie_id or surname)
-        DoCmd.OpenForm "subCancerQueryAll", , , " [genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '*" & Me.TextSearch.Value & "*'"
+        DoCmd.OpenForm "subCancerQueryAll", , , " [genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '*" & Me.TextSearch.Value & "*' OR [demographics.nhs_number] LIKE '*" & Me.TextSearch & "*' "
         
     End If
     
@@ -211,7 +210,7 @@ Private Sub openSubHaemFormButton_Click()
     Else
     
         ' Filter subform using string entered into search box (can be genie_id or surname)
-        DoCmd.OpenForm "subHaemQueryAll", , , " [genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '*" & Me.TextSearch.Value & "*'"
+        DoCmd.OpenForm "subHaemQueryAll", , , " [genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '*" & Me.TextSearch.Value & "*' OR [demographics.nhs_number] LIKE '*" & Me.TextSearch & "*' "
     
     End If
     
@@ -231,7 +230,7 @@ Private Sub openRDFormButton_Click()
     Else
         
         ' Filter subform using string entered into search box (can be genie_id or surname)
-        DoCmd.OpenForm "subRDQueryAll", , , " [genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '*" & Me.TextSearch.Value & "*'"
+        DoCmd.OpenForm "subRDQueryAll", , , " [genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '*" & Me.TextSearch.Value & "*' OR [demographics.nhs_number] LIKE '*" & Me.TextSearch & "*' "
     
     End If
     
@@ -312,7 +311,7 @@ Private Sub TextSearch_Change()
     
     ' 3 conditions - gene_id, surname, nhs_number
     strFilter = "[genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '" & Me.TextSearch & "*' OR [demographics.nhs_number] LIKE '*" & Me.TextSearch & "*'  "
-
+    
     If ComboDiseaseType.Value = "Cancer" Then
     
         subCancerQueryAll.Form.Filter = strFilter

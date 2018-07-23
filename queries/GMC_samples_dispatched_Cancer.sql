@@ -2,7 +2,7 @@ SELECT CANCER.genie_id, DEMOGRAPHICS.first_name, DEMOGRAPHICS.surname, CANCER.ho
          (
         CANCER.hospital = 'HH', 'ICHT',
         CANCER.hospital
-= 'QCH', 'ICHT',
+        = 'QCH', 'ICHT',
         CANCER.hospital = 'CXH', 'ICHT',
         CANCER.hospital = 'SMH', 'ICHT',
         CANCER.hospital = 'ChelWest', 'C&W',
