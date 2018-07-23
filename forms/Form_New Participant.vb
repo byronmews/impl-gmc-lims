@@ -355,5 +355,3 @@ Private Sub ClearTextSearch_Click()
     Me.TextBoxRecordCount.Visible = True
 
 End Sub
-
-
