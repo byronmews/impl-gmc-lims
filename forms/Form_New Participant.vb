@@ -1,4 +1,7 @@
-﻿Option Compare Database
+﻿
+Option Compare Database
+
+
 
 Private Sub Form_Activate()
 
@@ -10,6 +13,8 @@ Private Sub Form_Activate()
     fncLockUnlockControls Me!subRDQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
 
 End Sub
+
+
 
 ' Lock form fields from being modified using LockRadioButton
 Private Sub LockRadioButton_AfterUpdate()
@@ -355,3 +360,5 @@ Private Sub ClearTextSearch_Click()
     Me.TextBoxRecordCount.Visible = True
 
 End Sub
+
+

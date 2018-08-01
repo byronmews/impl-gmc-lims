@@ -1,8 +1,7 @@
 SELECT CANCER.genie_id, DEMOGRAPHICS.first_name, DEMOGRAPHICS.surname, CANCER.status_consent_date, CANCER.hospital, CANCER.status_blood, CANCER.[status_comments/actions_(blood)], CANCER.status_tissue, CANCER.[status_comments/actions_(tissue)], CANCER.disease_type, CANCER.[status_eligible_(y/n)], CANCER.status_impl_to_gosh_dispatch_date, SWITCH
-         (
+        (
         CANCER.hospital = 'HH', 'ICHT',
-        CANCER.hospital
-= 'QCH', 'ICHT',
+        CANCER.hospital = 'QCH', 'ICHT',
         CANCER.hospital = 'CXH', 'ICHT',
         CANCER.hospital = 'SMH', 'ICHT',
         CANCER.hospital = 'ChelWest', 'C&W',
