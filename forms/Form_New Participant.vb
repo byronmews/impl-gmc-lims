@@ -1,6 +1,99 @@
 ﻿
 Option Compare Database
 
+' Enforce minimal data input for new record entry. If false then MegBox. Prevents orphan records being created.
+Private Sub Form_BeforeUpdate(Cancel As Integer)
+
+     On Error GoTo ErrHandler
+
+        If IsNull(first_name) Then
+            MsgBox "Error when saving. Enter first name", vbCritical
+            Cancel = True
+            Exit Sub
+        ElseIf IsNull(surname) Then
+            MsgBox "Error when saving. Enter surname", vbCritical
+            Cancel = True
+            Exit Sub
+        ElseIf IsNull(nhs_number) Then
+            MsgBox "Error when saving. Enter NHS number", vbCritical
+            Cancel = True
+            Exit Sub
+        ElseIf IsNull(dob) Then
+            MsgBox "Error when saving. Enter DOB", vbCritical
+            Cancel = True
+            Exit Sub
+        ElseIf IsNull(gender) Then
+            MsgBox "Error when saving. Enter gender", vbCritical
+            Cancel = True
+            Exit Sub
+        ElseIf IsNull(status_consent_date) Then
+            MsgBox "Error when saving. Enter Consent date", vbCritical
+            Cancel = True
+            Exit Sub
+        ElseIf IsNull(disease_type) Then
+            MsgBox "Error when saving. Enter Disease Type", vbCritical
+            Cancel = True
+            Exit Sub
+            
+        End If
+        
+    Exit Sub
+        
+
+' Handle errors
+ErrHandler:
+   'Check for duplicate key error
+   If Err.Number = 3022 Then
+      MsgBox "Participant already in database. NHS number " & Me.nhs_number.Value & " found.", vbCritical
+   Else
+      ' Some info on any other errors found
+      MsgBox "Error when saving (Error #" & Err.Number & "). " & _
+      Err.Description, vbCritical
+   End If
+
+End Sub
+
+' Save entry into main Participants form. Once core data entered prevent change to values.
+Private Sub Save_Click()
+
+    On Error GoTo ErrHandler
+        ' Save record.
+        DoCmd.RunCommand acCmdSaveRecord
+
+        
+        ' Passed validation of minimal data input code block
+        ' Set form to locked fields
+        Me.LockRadioButton.Value = 1
+        fncLockUnlockControls Me, True, False, RGB(225, 225, 225) 'Locked
+        fncLockUnlockControls Me!subCancerQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
+    
+        ' Refresh form and subforms
+        Me.Refresh
+        Me.subCancerQueryAll.Form.Requery
+        Me.subHaemQueryAll.Form.Requery
+        Me.subRDQueryAll.Form.Requery
+    
+        ' Enable filter textbox after new record input saved.
+        Me.LabelTextSearch.Visible = True
+        Me.TextSearch.Visible = True
+        Me.ClearTextSearch.Visible = True
+        
+        MsgBox "Saved completed successfully.", vbInformation
+        
+    Exit Sub
+    
+' Handle errors
+ErrHandler:
+   'Check for duplicate key error
+   If Err.Number = 3022 Then
+      MsgBox "Participant already in database. NHS number " & Me.nhs_number.Value & " found.", vbCritical
+   Else
+      ' Some info on any other errors found
+      MsgBox "Error when saving (Error #" & Err.Number & "). " & _
+      Err.Description
+   End If
+    
+End Sub
 
 
 Private Sub Form_Activate()
@@ -50,6 +143,7 @@ Private Sub LockRadioButton_AfterUpdate()
        Me!RDHaemQueryAll.nhs_number.BackColor = RGB(225, 225, 225)
  
     End If
+    
 
 End Sub
 
@@ -63,6 +157,8 @@ Private Sub Form_Current()
         Me.nhs_number.BackColor = RGB(225, 225, 225)
  
     End If
+    
+    'DoCmd.SetOrderBy "status_consent_date DESC"
 
 End Sub
 
@@ -74,7 +170,7 @@ Private Sub Form_Load()
     TabMain.Pages.Item(2).Visible = False
 
     ' Join Demographics and Cancer tables
-    SQL = "SELECT * FROM CANCER INNER JOIN DEMOGRAPHICS ON CANCER.nhs_number = DEMOGRAPHICS.nhs_number;"
+    SQL = "SELECT * FROM CANCER INNER JOIN DEMOGRAPHICS ON CANCER.nhs_number = DEMOGRAPHICS.nhs_number ORDER BY CANCER.status_consent_date;"
 
     ' Change form and subform record source to disease_type. No parent-child relationship for subtable.
     Form.RecordSource = SQL
@@ -172,6 +268,11 @@ Private Sub NewRecord_Click()
     ' Set form to unlocked fields
     Me.LockRadioButton.Value = 2
     fncLockUnlockControls Me, False, True, RGB(255, 255, 255) 'Unlocked
+    
+    ' Hide search box
+    Me.LabelTextSearch.Visible = False
+    Me.TextSearch.Visible = False
+    Me.ClearTextSearch.Visible = False
    
     
 End Sub
@@ -241,67 +342,6 @@ Private Sub openRDFormButton_Click()
     
 End Sub
 
-' Save entry into main Particiapnts form. Once core data entered prevent change to values.
-Private Sub Save_Click()
-
-    ' Enforce minimal data input for new record. If false then popup box msg.
-    If IsNull(first_name) Then
-        MsgBox "Enter first_name"
-        Cancel = True
-    ElseIf IsNull(surname) Then
-        MsgBox "Enter surname"
-        Cancel = True
-    ElseIf IsNull(nhs_number) Then
-        MsgBox "Enter NHS number"
-        Cancel = True
-    ElseIf IsNull(dob) Then
-        MsgBox "Enter dob"
-        Cancel = True
-    ElseIf IsNull(gender) Then
-        MsgBox "Enter gender"
-        Cancel = True
-    ElseIf IsNull(status_consent_date) Then
-        MsgBox "Enter status_consent_date"
-        Cancel = True
-    ElseIf IsNull(disease_type) Then
-        MsgBox "Enter Disease Type"
-        Cancel = True
-    Else
-    
-        On Error GoTo ErrHandler
-        
-           ' Save record. Catch duplicate nhs_number error
-           DoCmd.RunCommand acCmdSaveRecord
-           
-            ' Set form to locked fields
-            Me.LockRadioButton.Value = 1
-            fncLockUnlockControls Me, True, False, RGB(225, 225, 225) 'Locked
-            fncLockUnlockControls Me!subCancerQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
-
-            ' Refresh table
-            Me.Refresh
-    
-            ' Enable filter textbox after new record input saved.
-            Me.LabelTextSearch.Visible = True
-            Me.TextSearch.Visible = True
-            Me.ClearTextSearch.Visible = True
-            
-        End If
-        
-    Exit Sub
-    
-ErrHandler:
-   'Check for duplicate key error
-   If Err.Number = 3022 Then
-      MsgBox "Participant already in database."
-      'Resume
-   Else
-      'Eser some info on other errors found
-      MsgBox "Error when saving (Error #" & Err.Number & "). " & _
-      Err.Description
-   End If
-    
-End Sub
 
 
 
@@ -360,5 +400,6 @@ Private Sub ClearTextSearch_Click()
     Me.TextBoxRecordCount.Visible = True
 
 End Sub
+
 
 
