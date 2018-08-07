@@ -1,5 +1,5 @@
 SELECT
-        DEMOGRAPHICS.nhs_number, CANCER.genie_id, DEMOGRAPHICS.first_name, DEMOGRAPHICS.surname, CANCER.disease_type, CANCER.status_impl_to_gosh_dispatch_date, SWITCH
+        DEMOGRAPHICS.nhs_number, CANCER.genie_id, DEMOGRAPHICS.first_name, DEMOGRAPHICS.surname, CANCER.disease_type, CANCER.status_impl_to_gosh_dispatch_date, CANCER.copath_first_report_of_gel_dispatched_or_withdrawn, CANCER.lab_number, CANCER.status_impl_to_gosh_consignment_number, SWITCH
          (
         CANCER.hospital = 'HH', 'ICHT',
         CANCER.hospital = 'QCH', 'ICHT',
@@ -10,14 +10,14 @@ SELECT
         CANCER.hospital = 'WMH', 'C&W',
         CANCER.hospital = 'C&W', 'C&W'
         ) AS LDP
-FROM
+        FROM 
         CANCER INNER JOIN DEMOGRAPHICS ON CANCER.nhs_number = DEMOGRAPHICS.nhs_number
-WHERE
+        WHERE
         CANCER.status_impl_to_gosh_dispatch_date IS NOT NULL
-
+        
 UNION
 SELECT
-        DEMOGRAPHICS.nhs_number, HAEM.genie_id, DEMOGRAPHICS.first_name, DEMOGRAPHICS.surname, HAEM.disease_type, HAEM.status_impl_to_gosh_dispatch_date, SWITCH
+        DEMOGRAPHICS.nhs_number, HAEM.genie_id, DEMOGRAPHICS.first_name, DEMOGRAPHICS.surname, HAEM.disease_type, HAEM.status_impl_to_gosh_dispatch_date, HAEM.copath_first_report_of_gel_dispatched_or_withdrawn, HAEM.lab_number, HAEM.status_impl_to_gosh_consignment_number, SWITCH
          (
         HAEM.hospital = 'HH', 'ICHT',
         HAEM.hospital = 'QCH', 'ICHT',
@@ -28,7 +28,7 @@ SELECT
         HAEM.hospital = 'WMH', 'C&W',
         HAEM.hospital = 'C&W', 'C&W'
         ) AS LDP
-FROM
+FROM 
         HAEM INNER JOIN DEMOGRAPHICS ON HAEM.nhs_number = DEMOGRAPHICS.nhs_number
 WHERE
         HAEM.status_impl_to_gosh_dispatch_date IS NOT NULL;
