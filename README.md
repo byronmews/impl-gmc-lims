@@ -1,4 +1,4 @@
-Imperial GMClab
+Imperial GMC lab
 ========================
 
 # About
