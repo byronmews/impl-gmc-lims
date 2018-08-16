@@ -11,23 +11,23 @@ SELECT DEMOGRAPHICS.nhs_number, HAEM.genie_id, HAEM.lab_number, HAEM.germline_dn
         (
         HAEM.[status_germline] = 'Y' AND HAEM.status_impl_to_gosh_dispatch_date IS NULL 
         AND
-                (
+        (      
                 HAEM.[status_cancer] LIKE 'Y*' OR HAEM.[status_Stored_cell_in_stem_cell_lab/GTC] LIKE 'Y*'
                 ), 'Samples Pre tissue QC / In Process at GMC',
 
         HAEM.[status_germline] = 'Y' AND HAEM.status_impl_to_gosh_dispatch_date IS NOT NULL 
         AND
-         (
+        (
                 HAEM.[status_cancer] LIKE 'Y*' OR HAEM.[status_Stored_cell_in_stem_cell_lab/GTC] LIKE 'Y*'
                 ), 'Samples Passed tissue QC in GMC',
 
         HAEM.status_impl_to_gosh_dispatch_date IS NULL
         AND
-                (
+        (
                 HAEM.[status_Stored_cell_in_stem_cell_lab/GTC] IS NULL OR HAEM.[status_germline] = 'N'
                 )
         OR
-                (
+        (
                 HAEM.[status_Stored_cell_in_stem_cell_lab/GTC] IS NULL OR HAEM.[status_Stored_cell_in_stem_cell_lab/GTC] <> 'Y'
                 ), 'Samples not paired or failed QC steps'
         ) AS GEL_QC_stage
