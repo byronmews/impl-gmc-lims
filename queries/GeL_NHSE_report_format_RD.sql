@@ -11,4 +11,4 @@ SELECT DEMOGRAPHICS.first_name, DEMOGRAPHICS.surname, DEMOGRAPHICS.nhs_number, R
         RD.comment LIKE '*Discarded', 'RD discarded'
         ) AS GEL_QC_STAGE
 FROM DEMOGRAPHICS INNER JOIN RD ON DEMOGRAPHICS.[nhs_number] = RD.[nhs_number]
-WHERE RD.received_date <= #2018-08-03#;
+WHERE RD.received_date <= #2018-08-24#;

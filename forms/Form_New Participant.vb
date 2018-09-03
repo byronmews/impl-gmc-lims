@@ -1,5 +1,6 @@
 ﻿
 Option Compare Database
+Dim strFilter As String ' search string entry
 
 ' Enforce minimal data input for new record entry. If false then MegBox. Prevents orphan records being created.
 Private Sub Form_BeforeUpdate(Cancel As Integer)
@@ -157,8 +158,6 @@ Private Sub Form_Current()
         Me.nhs_number.BackColor = RGB(225, 225, 225)
  
     End If
-    
-    'DoCmd.SetOrderBy "status_consent_date DESC"
 
 End Sub
 
@@ -294,9 +293,9 @@ Private Sub openSubCancerFormButton_Click()
         DoCmd.OpenForm "subCancerQueryAll"
         
     Else
-    
         ' Filter subform using string entered into search box (can be genie_id or surname)
-        DoCmd.OpenForm "subCancerQueryAll", , , " [genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '*" & Me.TextSearch.Value & "*' OR [demographics.nhs_number] LIKE '*" & Me.TextSearch & "*' "
+        'DoCmd.OpenForm "subCancerQueryAll", , , " [genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '*" & Me.TextSearch.Value & "*' OR [demographics.nhs_number] LIKE '*" & Me.TextSearch & "*' "
+        DoCmd.OpenForm "subCancerQueryAll", , , strFilter
         
     End If
     
@@ -316,8 +315,8 @@ Private Sub openSubHaemFormButton_Click()
     Else
     
         ' Filter subform using string entered into search box (can be genie_id or surname)
-        DoCmd.OpenForm "subHaemQueryAll", , , " [genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '*" & Me.TextSearch.Value & "*' OR [demographics.nhs_number] LIKE '*" & Me.TextSearch & "*' "
-    
+        DoCmd.OpenForm "subHaemQueryAll", , , strFilter
+        
     End If
     
 End Sub
@@ -336,8 +335,8 @@ Private Sub openRDFormButton_Click()
     Else
         
         ' Filter subform using string entered into search box (can be genie_id or surname)
-        DoCmd.OpenForm "subRDQueryAll", , , " [genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '*" & Me.TextSearch.Value & "*' OR [demographics.nhs_number] LIKE '*" & Me.TextSearch & "*' "
-    
+        DoCmd.OpenForm "subRDQueryAll", , , strFilter
+        
     End If
     
 End Sub
@@ -348,15 +347,17 @@ End Sub
 ' Search box for the Participant form. Searches form and subforms based on tables selected from SQL combobox.
 Private Sub TextSearch_Change()
     
-    Dim strFilter As String
+    'Dim strFilter As String
     Me.Refresh
     
     ' Hide sample number box, as filtering will reduce value - not useful.
     Me.TextBoxRecordCount.Visible = False
-    
-    ' 3 conditions - gene_id, surname, nhs_number
-    strFilter = "[genie_id] LIKE '*" & Me.TextSearch & "*' OR [surname] LIKE '" & Me.TextSearch & "*' OR [demographics.nhs_number] LIKE '*" & Me.TextSearch & "*'  "
-    
+        
+    ' 3 conditions - gene_id, surname, nhs_number. Replace string single quotes (') to doubles ('') to escape syntax error.
+    strFilter = " [genie_id] LIKE '*" & Replace(Me.TextSearch, "'", "''") & "*' OR " & _
+    "[surname] LIKE '*" & Replace(Me.TextSearch, "'", "''") & "*' OR " & _
+    "[demographics.nhs_number] LIKE '*" & Replace(Me.TextSearch, "'", "''") & "*'  "
+   
     If ComboDiseaseType.Value = "Cancer" Then
     
         subCancerQueryAll.Form.Filter = strFilter
@@ -400,6 +401,4 @@ Private Sub ClearTextSearch_Click()
     Me.TextBoxRecordCount.Visible = True
 
 End Sub
-
-
 
