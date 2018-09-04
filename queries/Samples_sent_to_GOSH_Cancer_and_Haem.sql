@@ -10,9 +10,9 @@ SELECT
         CANCER.hospital = 'WMH', 'C&W',
         CANCER.hospital = 'C&W', 'C&W'
         ) AS LDP
-        FROM 
+FROM 
         CANCER INNER JOIN DEMOGRAPHICS ON CANCER.nhs_number = DEMOGRAPHICS.nhs_number
-        WHERE
+WHERE
         CANCER.status_impl_to_gosh_dispatch_date IS NOT NULL
         
 UNION
