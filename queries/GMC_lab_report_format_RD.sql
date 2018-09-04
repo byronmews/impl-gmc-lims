@@ -1,4 +1,4 @@
-SELECT DEMOGRAPHICS.nhs_number, RD.genie_id, RD.genie_family_id, RD.status_consent_date, RD.received_date, RD.recruiter, RD.status_impl_to_gosh_dispatch_date, RD.comment, SWITCH
+SELECT DEMOGRAPHICS.nhs_number, RD.genie_id, RD.genie_family_id, RD.status_consent_date, RD.received_date, RD.recruiter, RD.status_impl_to_gosh_dispatch_date, RD.status_gosh_to_gel_dispatch_date, RD.comment, SWITCH
         (
         RD.genie_family_id LIKE 'RYJ*','ICHT',
         RD.genie_family_id LIKE 'RQM*','C&W',
