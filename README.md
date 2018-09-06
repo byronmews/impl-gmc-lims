@@ -10,7 +10,7 @@ https://github.com/byronmews/impl-gmc-lims/wiki
 
 Notes:
 * Data entry via Form_New Participant.
-* Subforms accessable from here
+* Subforms accessible from here
 * VBA main logic held within Form_New Participant, including SQL joins
 
 
