@@ -8,9 +8,9 @@ SELECT HAEM.genie_id, DEMOGRAPHICS.first_name, DEMOGRAPHICS.surname, HAEM.hospit
         HAEM.hospital = 'WESTMID', 'C&W',         
         HAEM.hospital = 'WMH', 'C&W'
         ) AS LDP, SWITCH
-        (
+(
         HAEM.germline_pathology_received_date IS NOT NULL AND HAEM.cancer_pathology_received_date IS NOT NULL AND
-        (HAEM.status_impl_to_gosh_dispatch_date IS NULL OR HAEM.status_tissue <> 'PASS'),'Samples Pre tissue QC / In Process at GMC',
+(HAEM.status_impl_to_gosh_dispatch_date IS NULL OR HAEM.status_tissue <> 'PASS'),'Samples Pre tissue QC / In Process at GMC',
 
         HAEM.status_germline_dna_qc_passed=-1 AND HAEM.status_tissue = 'PASS', 'Samples Passed tissue QC in GMC',
 
