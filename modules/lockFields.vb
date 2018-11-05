@@ -13,13 +13,8 @@ Public Function fncLockUnlockControls(frm As Form, lockIt As Boolean, enabled As
     
     Dim excludeArray As Variant
     Dim field As Variant
-    
-    'excludeArray = "dob"
-    'Dim i As String
 
     For Each ctl In frm.Controls
-       
-       'If Not ctl = "genie_id" Then
        
             With ctl
                 If Left(.ControlSource & "=", 1) <> "=" Then
@@ -28,7 +23,6 @@ Public Function fncLockUnlockControls(frm As Form, lockIt As Boolean, enabled As
                     .BackColor = colourFields
                 End If
             End With
-        'End If
         
 Skip_Control:     ' Come here from error if no .ControlSource property
     Next ctl
