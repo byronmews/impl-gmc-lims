@@ -2,11 +2,10 @@ SELECT DEMOGRAPHICS.first_name, DEMOGRAPHICS.surname, DEMOGRAPHICS.nhs_number, R
         (
         RD.genie_family_id LIKE 'RYJ*','ICHT',
         RD.genie_family_id LIKE 'RQM*','C&W',
-        (RD.genie_family_id NOT LIKE 'RYJ*' OR RD.genie_family_id NOT LIKE 'RQM*' OR RD.genie_family_id IS NULL),'NOT ON GENIE'
+                (RD.genie_family_id NOT LIKE 'RYJ*' OR RD.genie_family_id NOT LIKE 'RQM*' OR RD.genie_family_id IS NULL),'NOT ON GENIE'
         ) AS LDP, SWITCH
         (
-        RD.status_impl_to_gosh_dispatch_date Is Null AND
-        (RD.comment NOT LIKE '*Discarded' OR RD.comment Is NULL), 'Total Sample numbers Processed & held at NHS GMC',
+        RD.status_impl_to_gosh_dispatch_date Is Null AND (RD.comment NOT LIKE '*Discarded' OR RD.comment Is NULL), 'Total Sample numbers Processed & held at NHS GMC',
         RD.status_impl_to_gosh_dispatch_date IS NOT NULL, 'Total Sample Numbers sent to Biorep',
         RD.comment LIKE '*Discarded', 'RD discarded'
         ) AS GEL_QC_STAGE
