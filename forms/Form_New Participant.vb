@@ -27,10 +27,10 @@ Private Sub Form_BeforeUpdate(Cancel As Integer)
             MsgBox "Error when saving. Enter gender", vbCritical
             Cancel = True
             Exit Sub
-        ElseIf IsNull(status_consent_date) Then
-            MsgBox "Error when saving. Enter Consent date", vbCritical
-            Cancel = True
-            Exit Sub
+        'ElseIf IsNull(status_consent_date) Then
+            'MsgBox "Error when saving. Enter Consent date", vbCritical
+            'Cancel = True
+            'Exit Sub
         ElseIf IsNull(disease_type) Then
             MsgBox "Error when saving. Enter Disease Type", vbCritical
             Cancel = True
@@ -185,6 +185,16 @@ Private Sub Form_Load()
     fncLockUnlockControls Me!subCancerQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
     fncLockUnlockControls Me!subHaemQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
     fncLockUnlockControls Me!subRDQueryAll.Form, True, False, RGB(225, 225, 225) 'Locked
+    
+    ' Enable filter textbox by default
+    Me.LabelTextSearch.Visible = True
+    Me.TextSearch.Visible = True
+    Me.ClearTextSearch.Visible = True
+    
+    ' Hide sample number box, as filtering will reduce value - not useful.
+    Me.TextBoxRecordCount.Visible = True
+    
+    
     
 
 End Sub
